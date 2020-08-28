@@ -18,9 +18,22 @@ public with sharing class AttachPDFPrintableViewHelper {
         
         ContentVersion conVer = new ContentVersion();
         conVer.ContentLocation = 'S'; // to use S specify this document is in Salesforce, to use E for external files
-        conVer.PathOnClient = 'testing.pdf'; // The files name, extension is very important here which will help the file in preview.
-        conVer.Title = 'Testing PDF'; // Display name of the files
-        conVer.VersionData = pr.getContentAsPDF();
+        
+        string fileNamePathOnClient;
+        if(fileName == null) fileNamePathOnClient = recordName.normalizeSpace() + '.pdf';
+        else  fileNamePathOnClient = fileName.normalizeSpace() + '.pdf';
+        
+        conVer.PathOnClient = fileNamePathOnClient.toLowerCase(); // The files name, extension is very important here which will help the file in preview.
+        conVer.Title = recordName; // Display name of the files
+        
+        if(Test.isRunningTest()){
+            
+            conVer.VersionData = pr.getContentAsPDF();
+        }
+        else {
+            conVer.VersionData = blob.valueOf('Methods defined as TestMethod do not support getContent call');
+        }
+        
         insert conVer;    //Insert ContentVersion
         
         // First get the Content Document Id from ContentVersion Object
@@ -32,11 +45,11 @@ public with sharing class AttachPDFPrintableViewHelper {
         
         if(cdShareType != null) conDocLink.shareType = cdShareType.name();
         else conDocLink.shareType = 'V'; 
-
-
+        
+        
         if(cdVisibility != null) conDocLink.visibility = cdVisibility.name();
         else conDocLink.shareType = 'InternalUsers'; 
-
+        
         insert conDocLink;
     } 
 }
