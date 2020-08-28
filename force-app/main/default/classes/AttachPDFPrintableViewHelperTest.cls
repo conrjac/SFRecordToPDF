@@ -9,7 +9,7 @@ private class AttachPDFPrintableViewHelperTest {
     }
     
     @isTest
-    static void testgetRecordAndAttachAsFile_withParmeters()
+    static void testgetRecordAndAttachAsFile_withParameters()
     {
         
         Id recordId = [Select Id FROM Account LIMIT 1].Id;
@@ -22,7 +22,7 @@ private class AttachPDFPrintableViewHelperTest {
     }
 
        @isTest
-    static void testgetRecordAndAttachAsFile_withoutParmeters()
+    static void testgetRecordAndAttachAsFile_withoutParameters()
     {
         
         Id recordId = [Select Id FROM Account LIMIT 1].Id;
