@@ -27,11 +27,12 @@ public with sharing class AttachPDFPrintableViewHelper {
         conVer.Title = recordName; // Display name of the files
         
         if(Test.isRunningTest()){
+            conVer.VersionData = blob.valueOf('Methods defined as TestMethod do not support getContent call');
             
-            conVer.VersionData = pr.getContentAsPDF();
         }
         else {
-            conVer.VersionData = blob.valueOf('Methods defined as TestMethod do not support getContent call');
+            conVer.VersionData = pr.getContentAsPDF();
+            
         }
         
         insert conVer;    //Insert ContentVersion
@@ -48,7 +49,7 @@ public with sharing class AttachPDFPrintableViewHelper {
         
         
         if(cdVisibility != null) conDocLink.visibility = cdVisibility.name();
-        else conDocLink.shareType = 'InternalUsers'; 
+        else conDocLink.visibility = 'InternalUsers'; 
         
         insert conDocLink;
     } 
